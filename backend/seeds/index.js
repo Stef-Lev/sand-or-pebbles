@@ -3,11 +3,14 @@ const cities = require("./cities");
 const { places, descriptors } = require("./seedHelpers");
 const Beach = require("../models/beach");
 
-mongoose.connect("mongodb://localhost:27017/beach-finder", {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  "mongodb+srv://stef-lev:data4beachApp@beach-cluster.rl6k0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  }
+);
 
 const db = mongoose.connection;
 
