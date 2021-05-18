@@ -1,10 +1,11 @@
+require('dotenv').config();
 const mongoose = require("mongoose");
 const cities = require("./cities");
 const { places, descriptors } = require("./seedHelpers");
 const Beach = require("../models/beach");
 
 mongoose.connect(
-  "mongodb+srv://stef-lev:data4beachApp@beach-cluster.rl6k0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  process.env.MONGO_URL,
   {
     useNewUrlParser: true,
     useCreateIndex: true,

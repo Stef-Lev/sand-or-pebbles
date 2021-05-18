@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const app = express();
 const PORT = 7002;
@@ -6,7 +7,7 @@ const mongoose = require("mongoose");
 const Beach = require("./models/beach");
 
 mongoose.connect(
-  "mongodb+srv://stef-lev:data4beachApp@beach-cluster.rl6k0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  process.env.MONGO_URL,
   {
     useNewUrlParser: true,
     useCreateIndex: true,
