@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require("express");
 const app = express();
+const cors = require('cors');
 const PORT = 7002;
 const path = require("path");
 const mongoose = require("mongoose");
@@ -20,6 +21,8 @@ db.on("error", () => console.error("Error"));
 db.once("open", () => {
   console.log("Database connected");
 });
+
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send(`PORT ${PORT} listening...`);
