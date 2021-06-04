@@ -23,13 +23,26 @@ db.once("open", () => {
 });
 
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({extended: true}))
+
 
 app.get("/", (req, res) => {
   res.send(`PORT ${PORT} listening...`);
 });
 
 app.get("/beaches", async (req, res) => {
-  const beach = await Beach.find({});
+  const beaches = await Beach.find({});
+  res.send(beaches);
+});
+
+app.post("/beaches", async (req, res) => {
+  const beach = new Beach(req.body);
+  await beach.save();
+});
+
+app.get("/beaches/:id", async (req, res) => {
+  const beach = await Beach.findById(req.params.id);
   res.send(beach);
 });
 
