@@ -43,7 +43,15 @@ app.get("/beaches/:id", async (req, res) => {
   res.send(beach);
 });
 
-app.put("/beaches/:id/edit", async (req, res) => {});
+app.put("/beaches/:id", async (req, res) => {
+  const beach = await Beach.findByIdAndUpdate(req.params.id, { ...req.body }, { new: true, useFindAndModify: false })
+  res.send(beach);
+});
+
+app.delete("/beaches/:id", async (req, res) => {
+  await Beach.findByIdAndDelete(req.params.id)
+  res.send(JSON.stringify('DELETED BEACH'))
+});
 
 app.listen(PORT, () => {
   console.log(`Serving on port ${PORT}`);

@@ -20,13 +20,13 @@ function EditBeach() {
       .catch((err) => console.log(err));
   }, [id]);
 
-  const handleSubmit = () => {
+  const handleUpdate = () => {
     const body = {
       location: location,
       title: title,
     };
 
-    updateMethod("http://localhost:7002/beaches", id, body).then((res) => {
+    updateMethod("http://localhost:7002/beaches/", id, body).then((res) => {
       console.log("SENT", res);
       history.push("/beaches");
     });
@@ -52,7 +52,7 @@ function EditBeach() {
               value={location}
             />
           </div>
-          <button onClick={handleSubmit}>Update beach</button>
+          <button onClick={handleUpdate}>Update beach</button>
         </section>
       )}
       <Link to={`/beaches/${id}`}>Back to beach</Link>
