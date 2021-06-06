@@ -1,17 +1,14 @@
-require('dotenv').config();
+require("dotenv").config();
 const mongoose = require("mongoose");
 const cities = require("./cities");
 const { places, descriptors } = require("./seedHelpers");
 const Beach = require("../models/beach");
 
-mongoose.connect(
-  process.env.MONGO_URL,
-  {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  }
-);
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+});
 
 const db = mongoose.connection;
 

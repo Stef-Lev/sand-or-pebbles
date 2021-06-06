@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { getOneMethod } from "../helpers/services";
 
 function ShowBeach() {
-  let { id } = useParams();
+  const { id } = useParams();
+
   const [beach, setBeach] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:7002/beaches/${id}`)
-      .then((res) => res.json())
+    getOneMethod("http://localhost:7002/beaches/", id)
       .then((beach) => setBeach(beach))
       .catch((err) => console.log(err));
   }, [id]);
@@ -18,6 +19,12 @@ function ShowBeach() {
         <>
           <h1>{beach.title}</h1>
           <h2>{beach._id}</h2>
+          <h3>
+            <Link to={`/beaches/${id}/edit`}>Edit</Link>
+          </h3>
+          <footer>
+            <Link to={"/beaches"}>Home</Link>
+          </footer>
         </>
       )}
     </div>

@@ -1,26 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { postMethod } from "../helpers/services";
 
 function NewBeach() {
   const [title, setTitle] = useState(null);
   const [location, setLocation] = useState(null);
 
-  useEffect(() => {
-    console.log(title, location);
-  }, [title, location]);
+  const history = useHistory();
 
   const handleSubmit = () => {
-    const sentData = {
+    const body = {
       location: location,
-      title: title
+      title: title,
     };
-    console.log(sentData);
 
-    return fetch("http://localhost:7002/beaches", {
-      method: "POST",
-      headers: {
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify(sentData),
+    postMethod("http://localhost:7002/beaches", body).then((res) => {
+      console.log("SENT", res);
+      history.push("/beaches");
     });
   };
 
