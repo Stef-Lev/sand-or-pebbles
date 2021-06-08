@@ -44,13 +44,17 @@ app.get("/beaches/:id", async (req, res) => {
 });
 
 app.put("/beaches/:id", async (req, res) => {
-  const beach = await Beach.findByIdAndUpdate(req.params.id, { ...req.body }, { new: true, useFindAndModify: false })
+  const beach = await Beach.findByIdAndUpdate(
+    req.params.id,
+    { ...req.body },
+    { new: true, useFindAndModify: false }
+  );
   res.send(beach);
 });
 
 app.delete("/beaches/:id", async (req, res) => {
-  await Beach.findByIdAndDelete(req.params.id)
-  res.send(JSON.stringify('DELETED BEACH'))
+  await Beach.findByIdAndDelete(req.params.id);
+  res.send(JSON.stringify("DELETED BEACH"));
 });
 
 app.listen(PORT, () => {
