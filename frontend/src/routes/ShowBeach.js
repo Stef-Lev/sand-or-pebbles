@@ -15,8 +15,11 @@ function ShowBeach() {
   }, [id]);
 
   const handleDelete = () => {
-    deleteMethod("http://localhost:7002/beaches/", id).then((res) => { console.log(res); history.push('/beaches') })
-  }
+    deleteMethod("http://localhost:7002/beaches/", id).then((res) => {
+      console.log(res);
+      history.push("/beaches");
+    });
+  };
 
   return (
     <div>

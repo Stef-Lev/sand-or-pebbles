@@ -4,11 +4,13 @@ import MainPage from "./routes/MainPage";
 import ShowBeach from "./routes/ShowBeach";
 import NewBeach from "./routes/NewBeach";
 import EditBeach from "./routes/EditBeach";
+import Navbar from "./components/Navbar";
 import "./App.css";
 
 function App() {
   return (
     <Router>
+      <Navbar />
       <Switch>
         <Route exact path="/beaches">
           <MainPage />
