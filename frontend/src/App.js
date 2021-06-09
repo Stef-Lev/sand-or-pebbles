@@ -18,23 +18,23 @@ function App() {
   return (
     <Router>
       <MainContainer>
-      <Header />
-      <Switch>
-        <Route exact path="/beaches">
-          <MainPage />
-        </Route>
-        <Route exact path="/beaches/new">
-          <NewBeach />
-        </Route>
-        <Route exact path="/beaches/:id">
-          <ShowBeach />
-        </Route>
-        <Route exact path="/beaches/:id/edit">
-          <EditBeach />
-        </Route>
-      </Switch>
-      <Card/>
-      <Footer />
+        <Header />
+        <Switch>
+          <Route exact path="/beaches">
+            <MainPage />
+          </Route>
+          <Route exact path="/beaches/new">
+            <NewBeach />
+          </Route>
+          <Route exact path="/beaches/:id">
+            <ShowBeach />
+          </Route>
+          <Route exact path="/beaches/:id/edit">
+            <EditBeach />
+          </Route>
+        </Switch>
+        <Card />
+        <Footer />
       </MainContainer>
     </Router>
   );

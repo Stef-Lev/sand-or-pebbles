@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function BeachCard() {
+function BeachCard({title, location}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -60,7 +60,7 @@ function BeachCard() {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
+        title={title}
         subheader="September 14, 2016"
       />
       <CardMedia

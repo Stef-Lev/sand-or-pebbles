@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { getAllMethod } from "../helpers/services";
+import { Grid, Paper } from "@material-ui/core";
+import BeachCard from "../components/BeachCard";
 
 function MainPage() {
   const [data, setData] = useState("");
@@ -19,16 +21,25 @@ function MainPage() {
       <div>
         <button onClick={() => history.push("/beaches/new")}>New beach</button>
       </div>
-      <ul>
-        {data &&
-          data.map((item, index) => {
-            return (
-              <li key={`100${index + 1}`}>
-                <Link to={`/beaches/${item._id}`}>{item.title}</Link>
-              </li>
-            );
-          })}
-      </ul>
+      <section>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Grid container justify="center" spacing={3}>
+              {data &&
+                data.map((item, index) => {
+                  return (
+                    <Grid key={index} item>
+                      <Paper>
+                        <Link to={`/beaches/${item._id}`}>{item.title}</Link>
+                        <BeachCard title={item.title} location={item.location}/>
+                      </Paper>
+                    </Grid>
+                  );
+                })}
+            </Grid>
+          </Grid>
+        </Grid>
+      </section>
     </div>
   );
 }
