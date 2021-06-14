@@ -21,7 +21,7 @@ function MainPage() {
       <div>
         <button onClick={() => history.push("/beaches/new")}>New beach</button>
       </div>
-      <section>
+      <section style={{margin: 0, padding:'8px'}}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Grid container justify="center" spacing={3}>
@@ -29,7 +29,7 @@ function MainPage() {
                 data.map((item, index) => {
                   return (
                     <Grid key={index} item>
-                      <Paper>
+                      <Paper elevation={3}>
                         <Link to={`/beaches/${item._id}`}>{item.title}</Link>
                         <BeachCard title={item.title} location={item.location}/>
                       </Paper>

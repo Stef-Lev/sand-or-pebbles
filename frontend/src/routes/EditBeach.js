@@ -4,43 +4,36 @@ import { getOneMethod, updateMethod } from "../helpers/services";
 
 function EditBeach() {
   const { id } = useParams();
-  const [beach, setBeach] = useState(null);
-  const [title, setTitle] = useState("");
-  const [location, setLocation] = useState("");
+  const [state, setState] = useState({title: null, location:null})
 
   const history = useHistory();
 
   useEffect(() => {
     getOneMethod("http://localhost:7002/beaches/", id)
       .then((beach) => {
-        setBeach(beach);
-        setTitle(beach.title);
-        setLocation(beach.location);
+        setState(beach);
       })
       .catch((err) => console.log(err));
   }, [id]);
 
   const handleUpdate = () => {
-    const body = {
-      location: location,
-      title: title,
-    };
-
-    updateMethod("http://localhost:7002/beaches/", id, body).then((res) => {
+    updateMethod("http://localhost:7002/beaches/", id, state).then((res) => {
       console.log("SENT", res);
       history.push("/beaches");
     });
   };
 
+  const {title, location} = state;
+
   return (
     <>
-      {beach && (
+      {state && (
         <section>
           <div>
             <label>Title</label>
             <input
               type="text"
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => setState({...state, title: e.target.value})}
               value={title}
             />
           </div>
@@ -48,7 +41,7 @@ function EditBeach() {
             <label>Location</label>
             <input
               type="text"
-              onChange={(e) => setLocation(e.target.value)}
+              onChange={(e) => setState({...state, location: e.target.value})}
               value={location}
             />
           </div>

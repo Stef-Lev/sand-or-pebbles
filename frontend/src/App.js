@@ -6,20 +6,19 @@ import ShowBeach from "./routes/ShowBeach";
 import NewBeach from "./routes/NewBeach";
 import EditBeach from "./routes/EditBeach";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Card from "./components/BeachCard";
 import "./App.css";
 
 const MainContainer = styled.div`
-  margin-bottom: 60px;
+  padding: 16px;
 `;
 
 function App() {
   return (
     <Router>
-      <MainContainer>
+      
         <Header />
         <Switch>
+        <MainContainer>
           <Route exact path="/beaches">
             <MainPage />
           </Route>
@@ -32,10 +31,9 @@ function App() {
           <Route exact path="/beaches/:id/edit">
             <EditBeach />
           </Route>
+          </MainContainer>
         </Switch>
-        <Card />
-        <Footer />
-      </MainContainer>
+      
     </Router>
   );
 }
