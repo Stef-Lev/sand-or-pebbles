@@ -5,6 +5,7 @@ const BeachSchema = new Schema({
   title: String,
   description: String,
   location: String,
+  imageUrl: String
 });
 
 module.exports = mongoose.model("Beach", BeachSchema);

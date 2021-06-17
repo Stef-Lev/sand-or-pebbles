@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { getAllMethod } from "../helpers/services";
 import { Grid, Paper } from "@material-ui/core";
 import BeachCard from "../components/BeachCard";
@@ -15,13 +15,17 @@ function MainPage() {
       .catch((err) => console.log(err));
   }, []);
 
+  const goToBeach = (id) => {
+    history.push(`/beaches/${id}`);
+  };
+
   return (
     <div className="App">
       <h1>All Beaches</h1>
       <div>
         <button onClick={() => history.push("/beaches/new")}>New beach</button>
       </div>
-      <section style={{margin: 0, padding:'8px'}}>
+      <section style={{ margin: 0, padding: "8px" }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Grid container justify="center" spacing={3}>
@@ -30,8 +34,13 @@ function MainPage() {
                   return (
                     <Grid key={index} item>
                       <Paper elevation={3}>
-                        <Link to={`/beaches/${item._id}`}>{item.title}</Link>
-                        <BeachCard title={item.title} location={item.location}/>
+                        <BeachCard
+                          title={item.title}
+                          location={item.location}
+                          imageUrl={item.imageUrl}
+                          description={item.description}
+                          onClick={() => goToBeach(item._id)}
+                        />
                       </Paper>
                     </Grid>
                   );

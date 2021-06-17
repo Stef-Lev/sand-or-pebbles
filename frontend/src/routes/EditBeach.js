@@ -1,10 +1,44 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { getOneMethod, updateMethod } from "../helpers/services";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { Input, Typography } from "@material-ui/core";
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const DataForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 320px;
+`;
+
+const StyledButton = styled(Button)`
+  && {
+    background-color: #006994;
+    color: white;
+    :hover {
+      background-color: #0a4861;
+    }
+  }
+`;
 
 function EditBeach() {
   const { id } = useParams();
-  const [state, setState] = useState({title: null, location:null})
+  const [state, setState] = useState({
+    title: "",
+    location: "",
+    description: "",
+    imageUrl: "",
+  });
 
   const history = useHistory();
 
@@ -23,33 +57,61 @@ function EditBeach() {
     });
   };
 
-  const {title, location} = state;
+  const { title, location, description, imageUrl } = state;
 
   return (
     <>
-      {state && (
-        <section>
-          <div>
-            <label>Title</label>
-            <input
-              type="text"
-              onChange={(e) => setState({...state, title: e.target.value})}
-              value={title}
-            />
-          </div>
-          <div>
-            <label>Location</label>
-            <input
-              type="text"
-              onChange={(e) => setState({...state, location: e.target.value})}
-              value={location}
-            />
-          </div>
-          <button onClick={handleUpdate}>Update beach</button>
-        </section>
-      )}
+          <ContentContainer>
+        <Typography variant='h4'>Update Beach</Typography>
+        <DataForm>
+          <TextField
+            id="outlined-basic"
+            label="Title"
+            variant="outlined"
+            value={title}
+            onChange={(e) => setState({ ...state, title: e.target.value })}
+            fullWidth
+          />
+          <TextField
+            id="outlined-basic"
+            label="Location"
+            variant="outlined"
+            value={location}
+            onChange={(e) => setState({ ...state, location: e.target.value })}
+            fullWidth
+          />
+          <TextField
+            id="outlined-basic"
+            label="Image Url"
+            variant="outlined"
+            value={imageUrl}
+            onChange={(e) => setState({ ...state, imageUrl: e.target.value })}
+            fullWidth
+          />
+          <TextField
+            id="outlined-basic"
+            label="Description"
+            variant="outlined"
+            value={description}
+            multiline
+            rows={5}
+            rowsMax={10}
+            onChange={(e) =>
+              setState({ ...state, description: e.target.value })
+            }
+            fullWidth
+          />
+          <StyledButton
+            onClick={handleUpdate}
+            variant="contained"
+          >
+            Update Beach
+          </StyledButton>
+        </DataForm>
+      </ContentContainer>
       <Link to={`/beaches/${id}`}>Back to beach</Link>
-    </>
+        </>
+      
   );
 }
 

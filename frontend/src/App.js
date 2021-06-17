@@ -15,9 +15,8 @@ const MainContainer = styled.div`
 function App() {
   return (
     <Router>
-      
-        <Header />
-        <Switch>
+      <Header />
+      <Switch>
         <MainContainer>
           <Route exact path="/beaches">
             <MainPage />
@@ -31,9 +30,8 @@ function App() {
           <Route exact path="/beaches/:id/edit">
             <EditBeach />
           </Route>
-          </MainContainer>
-        </Switch>
-      
+        </MainContainer>
+      </Switch>
     </Router>
   );
 }
@@ -42,3 +40,4 @@ export default App;
 
 // @TODOS
 // Replace simple components with material or react
+// Add scroll to top button after specific point

@@ -34,6 +34,12 @@ const StyledAppBar = styled(AppBar)`
   background-color: #006994 !important;
 `;
 
+const StyledDrawer = styled(Drawer)`
+.MuiDrawer-paper {
+  width: 60vw;
+}
+`
+
 const Header = () => {
   const [state, setState] = useState({
     mobileView: false,
@@ -97,7 +103,7 @@ const Header = () => {
         >
           <MenuIcon />
         </IconButton>
-        <Drawer
+        <StyledDrawer
           {...{
             anchor: "left",
             open: drawerOpen,
@@ -105,7 +111,7 @@ const Header = () => {
           }}
         >
           <div>{getDrawerChoices()}</div>
-        </Drawer>
+        </StyledDrawer>
         <div>
           <Typography variant="h5">BeachFinder</Typography>
         </div>

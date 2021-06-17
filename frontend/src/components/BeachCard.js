@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import styled from "styled-components";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -13,63 +14,40 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 345,
-  },
-  media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
-  },
-  expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: "rotate(180deg)",
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
-}));
+const StyledCard = styled(Card)`
+  width: 360px;
 
-function BeachCard({title, location}) {
-  const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
+  .media {
+    height: 0;
+    padding-top: 56.25%;
+  }
+`;
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+function BeachCard({ title, location, description, imageUrl, onClick }) {
+  const image =
+    imageUrl ||
+    "https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80";
 
   return (
-    <Card className={classes.root}>
+    <StyledCard>
       <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            R
-          </Avatar>
-        }
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
         title={title}
-        subheader="September 14, 2016"
+        subheader={location}
       />
       <CardMedia
-        className={classes.media}
-        image="https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80"
-        title="Paella dish"
+        className="media"
+        image={image}
+        title={title}
+        onClick={onClick}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          {description}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -80,7 +58,7 @@ function BeachCard({title, location}) {
           <ShareIcon />
         </IconButton>
       </CardActions>
-    </Card>
+    </StyledCard>
   );
 }
 
