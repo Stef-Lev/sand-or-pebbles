@@ -4,7 +4,7 @@ import { useHistory, useParams, Link } from "react-router-dom";
 import { getOneMethod, updateMethod } from "../helpers/services";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { Input, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -61,8 +61,8 @@ function EditBeach() {
 
   return (
     <>
-          <ContentContainer>
-        <Typography variant='h4'>Update Beach</Typography>
+      <ContentContainer>
+        <Typography variant="h4">Update Beach</Typography>
         <DataForm>
           <TextField
             id="outlined-basic"
@@ -101,17 +101,13 @@ function EditBeach() {
             }
             fullWidth
           />
-          <StyledButton
-            onClick={handleUpdate}
-            variant="contained"
-          >
+          <StyledButton onClick={handleUpdate} variant="contained">
             Update Beach
           </StyledButton>
         </DataForm>
       </ContentContainer>
       <Link to={`/beaches/${id}`}>Back to beach</Link>
-        </>
-      
+    </>
   );
 }
 

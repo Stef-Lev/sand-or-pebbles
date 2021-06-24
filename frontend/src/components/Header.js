@@ -35,10 +35,10 @@ const StyledAppBar = styled(AppBar)`
 `;
 
 const StyledDrawer = styled(Drawer)`
-.MuiDrawer-paper {
-  width: 60vw;
-}
-`
+  .MuiDrawer-paper {
+    width: 60vw;
+  }
+`;
 
 const Header = () => {
   const [state, setState] = useState({
