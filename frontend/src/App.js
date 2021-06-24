@@ -41,3 +41,4 @@ export default App;
 // @TODOS
 // Replace simple components with material or react
 // Add scroll to top button after specific point
+// Fix padding in beaches screen

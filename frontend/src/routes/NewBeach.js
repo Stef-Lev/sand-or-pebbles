@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { postMethod } from "../helpers/services";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
 
 const ContentContainer = styled.div`
@@ -11,14 +12,9 @@ const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
-
-const DataForm = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 10px;
-  width: 320px;
+  .field {
+    margin-bottom: 20px;
+  }
 `;
 
 const StyledButton = styled(Button)`
@@ -51,10 +47,13 @@ function NewBeach() {
   return (
     <>
       <ContentContainer>
-        <Typography variant='h4'>Add beach</Typography>
-        <DataForm>
+        <Typography variant="h4" className="field">
+          Add beach
+        </Typography>
+        <Grid item xs={12} md={6}>
           <TextField
             id="outlined-basic"
+            className="field"
             label="Title"
             variant="outlined"
             onChange={(e) => setState({ ...state, title: e.target.value })}
@@ -62,6 +61,7 @@ function NewBeach() {
           />
           <TextField
             id="outlined-basic"
+            className="field"
             label="Location"
             variant="outlined"
             onChange={(e) => setState({ ...state, location: e.target.value })}
@@ -69,6 +69,7 @@ function NewBeach() {
           />
           <TextField
             id="outlined-basic"
+            className="field"
             label="Image Url"
             variant="outlined"
             onChange={(e) => setState({ ...state, imageUrl: e.target.value })}
@@ -76,6 +77,7 @@ function NewBeach() {
           />
           <TextField
             id="outlined-basic"
+            className="field"
             label="Description"
             variant="outlined"
             multiline
@@ -86,13 +88,10 @@ function NewBeach() {
             }
             fullWidth
           />
-          <StyledButton
-            onClick={handleSubmit}
-            variant="contained"
-          >
+          <StyledButton onClick={handleSubmit} variant="contained">
             Add beach
           </StyledButton>
-        </DataForm>
+        </Grid>
       </ContentContainer>
     </>
   );

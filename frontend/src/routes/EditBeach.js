@@ -4,6 +4,7 @@ import { useHistory, useParams, Link } from "react-router-dom";
 import { getOneMethod, updateMethod } from "../helpers/services";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
 
 const ContentContainer = styled.div`
@@ -11,14 +12,10 @@ const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
 
-const DataForm = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 10px;
-  width: 320px;
+  .field {
+    margin-bottom: 20px;
+  }
 `;
 
 const StyledButton = styled(Button)`
@@ -62,10 +59,14 @@ function EditBeach() {
   return (
     <>
       <ContentContainer>
-        <Typography variant="h4">Update Beach</Typography>
-        <DataForm>
+        <Typography variant="h4" className="field">
+          Edit Beach
+        </Typography>
+
+        <Grid item xs={12} md={6}>
           <TextField
             id="outlined-basic"
+            className="field"
             label="Title"
             variant="outlined"
             value={title}
@@ -74,6 +75,7 @@ function EditBeach() {
           />
           <TextField
             id="outlined-basic"
+            className="field"
             label="Location"
             variant="outlined"
             value={location}
@@ -82,6 +84,7 @@ function EditBeach() {
           />
           <TextField
             id="outlined-basic"
+            className="field"
             label="Image Url"
             variant="outlined"
             value={imageUrl}
@@ -90,6 +93,7 @@ function EditBeach() {
           />
           <TextField
             id="outlined-basic"
+            className="field"
             label="Description"
             variant="outlined"
             value={description}
@@ -104,9 +108,9 @@ function EditBeach() {
           <StyledButton onClick={handleUpdate} variant="contained">
             Update Beach
           </StyledButton>
-        </DataForm>
+        </Grid>
+        <Link to={`/beaches/${id}`}>Back to beach</Link>
       </ContentContainer>
-      <Link to={`/beaches/${id}`}>Back to beach</Link>
     </>
   );
 }
