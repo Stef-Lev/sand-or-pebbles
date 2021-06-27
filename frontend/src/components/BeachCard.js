@@ -14,7 +14,7 @@ import { cropString } from "../helpers/services";
 
 const StyledCard = styled(Card)`
   width: 360px;
-  height: 360px;
+  height: 370px;
 
   .media {
     height: 0;
