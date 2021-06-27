@@ -61,6 +61,7 @@ function ShowBeach() {
     });
   };
 
+  console.log(beach);
   return (
     <div>
       {beach && (
@@ -70,7 +71,7 @@ function ShowBeach() {
             <Typography variant="h5">{beach.location}</Typography>
             <StyledImage
               className="media"
-              image="https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80"
+              image={beach.imageUrl}
               title="Dummy title"
               onClick={() => console.log("clicked")}
             />

@@ -10,10 +10,11 @@ import Typography from "@material-ui/core/Typography";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { cropString } from "../helpers/services";
 
 const StyledCard = styled(Card)`
   width: 360px;
-  height: 400px;
+  height: 360px;
 
   .media {
     height: 0;
@@ -46,9 +47,10 @@ function BeachCard({ title, location, description, imageUrl, onClick }) {
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          {description}
+          {cropString(description)}
         </Typography>
       </CardContent>
+      {/* More actions
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
@@ -56,7 +58,7 @@ function BeachCard({ title, location, description, imageUrl, onClick }) {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
-      </CardActions>
+      </CardActions> */}
     </StyledCard>
   );
 }
