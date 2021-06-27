@@ -16,8 +16,8 @@ function App() {
   return (
     <Router>
       <Header />
-      <Switch>
-        <MainContainer>
+      <MainContainer>
+        <Switch>
           <Route exact path="/beaches">
             <MainPage />
           </Route>
@@ -30,8 +30,8 @@ function App() {
           <Route exact path="/beaches/:id/edit">
             <EditBeach />
           </Route>
-        </MainContainer>
-      </Switch>
+        </Switch>
+      </MainContainer>
     </Router>
   );
 }
@@ -42,3 +42,4 @@ export default App;
 // Replace simple components with material or react
 // Add scroll to top button after specific point
 // Fix padding in beaches screen
+// Show page typography fluid

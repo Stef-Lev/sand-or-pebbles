@@ -13,7 +13,16 @@ const ButtonContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   gap: 20px;
-  margin: 20px 0;;
+  margin: 20px 0;
+`;
+
+const Description = styled.div`
+  border-radius: 0 0 20px 20px;
+  border: 1px solid #a9a9a9;
+  color: #808080;
+  font-style: italic;
+  margin-top: 20px;
+  padding: 16px;
 `;
 
 const StyledButton = styled(Button)`
@@ -29,6 +38,8 @@ const StyledButton = styled(Button)`
 const StyledImage = styled(CardMedia)`
   height: 0;
   padding-top: 56.25%;
+  border-radius: 10px 10px 0 0;
+  margin-top: 20px;
 `;
 
 function ShowBeach() {
@@ -55,20 +66,24 @@ function ShowBeach() {
       {beach && (
         <Grid container justify="center">
           <Grid item xs={12} md={6}>
-            <Typography variant='h3'>{beach.title}</Typography>
+            <Typography variant="h3">{beach.title}</Typography>
+            <Typography variant="h5">{beach.location}</Typography>
             <StyledImage
               className="media"
               image="https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80"
               title="Dummy title"
               onClick={() => console.log("clicked")}
             />
+            {beach.description && (
+              <Description>
+                <p>{beach.description}</p>
+              </Description>
+            )}
             <ButtonContainer>
-            <StyledButton onClick={() => history.push(`/beaches/${id}/edit`)}>
+              <StyledButton onClick={() => history.push(`/beaches/${id}/edit`)}>
                 Edit
               </StyledButton>
-              <StyledButton onClick={handleDelete}>
-                Delete
-              </StyledButton>
+              <StyledButton onClick={handleDelete}>Delete</StyledButton>
             </ButtonContainer>
           </Grid>
         </Grid>
