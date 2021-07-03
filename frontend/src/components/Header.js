@@ -30,7 +30,6 @@ const StyledAppBar = styled(AppBar)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
   background-color: #006994 !important;
 `;
 

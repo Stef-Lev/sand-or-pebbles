@@ -19,6 +19,8 @@ function MainPage() {
     history.push(`/beaches/${id}`);
   };
 
+  console.log(data);
+
   return (
     <div className="App">
       <h1>All Beaches</h1>

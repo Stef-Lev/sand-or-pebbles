@@ -25,12 +25,22 @@ const Description = styled.div`
   padding: 16px;
 `;
 
-const StyledButton = styled(Button)`
+const EditButton = styled(Button)`
   && {
     background-color: #006994;
     color: white;
     :hover {
       background-color: #0a4861;
+    }
+  }
+`;
+
+const CancelButton = styled(Button)`
+  && {
+    background-color: #e33430;
+    color: white;
+    :hover {
+      background-color: #d41a16;
     }
   }
 `;
@@ -81,10 +91,10 @@ function ShowBeach() {
               </Description>
             )}
             <ButtonContainer>
-              <StyledButton onClick={() => history.push(`/beaches/${id}/edit`)}>
+              <EditButton onClick={() => history.push(`/beaches/${id}/edit`)}>
                 Edit
-              </StyledButton>
-              <StyledButton onClick={handleDelete}>Delete</StyledButton>
+              </EditButton>
+              <CancelButton onClick={handleDelete}>Delete</CancelButton>
             </ButtonContainer>
           </Grid>
         </Grid>
