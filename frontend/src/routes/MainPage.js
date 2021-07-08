@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { getAllMethod } from "../helpers/services";
 import { Grid, Paper } from "@material-ui/core";
 import BeachCard from "../components/BeachCard";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const StyledLoader = styled.div`
   display: flex;
@@ -13,8 +13,8 @@ const StyledLoader = styled.div`
   margin-top: 60px;
 
   .MuiCircularProgress-root {
-    width: 100px!important;
-    height: 100px!important;
+    width: 100px !important;
+    height: 100px !important;
     color: #006994;
   }
 `;
@@ -38,43 +38,43 @@ function MainPage() {
   };
 
   console.log(data);
-  
-  if (loading) {
-    return <StyledLoader>
-      <CircularProgress/>
-    </StyledLoader>
-  }
 
   return (
     <div className="App">
-      <h1>All Beaches</h1>
-      <div>
-        <button onClick={() => history.push("/beaches/new")}>New beach</button>
-      </div>
-      <section style={{ margin: 0, padding: "8px" }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Grid container justify="center" spacing={3}>
-              {data &&
-                data.map((item, index) => {
-                  return (
-                    <Grid key={index} item>
-                      <Paper elevation={3}>
-                        <BeachCard
-                          title={item.title}
-                          location={item.location}
-                          imageUrl={item.imageUrl}
-                          description={item.description}
-                          onClick={() => goToBeach(item._id)}
-                        />
-                      </Paper>
-                    </Grid>
-                  );
-                })}
+      {loading && (
+        <StyledLoader>
+          <CircularProgress />
+        </StyledLoader>
+      )}
+      {!loading && (
+        <>
+          <h1>All Beaches</h1>
+          <section style={{ margin: 0, padding: "8px" }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Grid container justify="center" spacing={3}>
+                  {data &&
+                    data.map((item, index) => {
+                      return (
+                        <Grid key={index} item>
+                          <Paper elevation={3}>
+                            <BeachCard
+                              title={item.title}
+                              location={item.location}
+                              imageUrl={item.imageUrl}
+                              description={item.description}
+                              onClick={() => goToBeach(item._id)}
+                            />
+                          </Paper>
+                        </Grid>
+                      );
+                    })}
+                </Grid>
+              </Grid>
             </Grid>
-          </Grid>
-        </Grid>
-      </section>
+          </section>
+        </>
+      )}
     </div>
   );
 }
