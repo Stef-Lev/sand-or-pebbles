@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import styled from "styled-components";
 import { getAllMethod } from "../helpers/services";
 import { Grid, Paper } from "@material-ui/core";
 import BeachCard from "../components/BeachCard";
@@ -64,6 +65,7 @@ function MainPage() {
           </Grid>
         </Grid>
       </section>
+      )
     </div>
   );
 }

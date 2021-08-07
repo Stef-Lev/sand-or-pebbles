@@ -1,1 +1,1 @@
-# beach-finder
+# Sand and pebbles (SnP)
