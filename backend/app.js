@@ -27,9 +27,13 @@ app.get("/", (req, res) => {
   res.send(`PORT ${PORT} listening...`);
 });
 
-app.get("/beaches", async (req, res) => {
-  const beaches = await Beach.find({});
-  res.send(beaches);
+app.get("/beaches", async (req, res, next) => {
+  try {
+    const beaches = await Beach.find({});
+    res.send(beaches);
+  } catch (e) {
+    next(e);
+  }
 });
 
 app.post("/beaches", async (req, res) => {

@@ -10,6 +10,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { MenuItem } from "@material-ui/core";
 import Link from "@material-ui/core/Link";
 import { Link as RouterLink } from "react-router-dom";
+import { theme } from "../helpers/theme";
 
 const headerData = [
   {
@@ -30,7 +31,7 @@ const StyledAppBar = styled(AppBar)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: #006994 !important;
+  background-color: ${theme.primaryColor} !important;
 `;
 
 const StyledDrawer = styled(Drawer)`

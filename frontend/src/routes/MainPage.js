@@ -3,15 +3,21 @@ import { useHistory } from "react-router-dom";
 import { getAllMethod } from "../helpers/services";
 import { Grid, Paper } from "@material-ui/core";
 import BeachCard from "../components/BeachCard";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { theme } from "../helpers/theme";
 
 function MainPage() {
   const [data, setData] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const history = useHistory();
 
   useEffect(() => {
     getAllMethod("http://localhost:7002/beaches")
-      .then((beaches) => setData(beaches))
+      .then((beaches) => {
+        setData(beaches);
+        setIsLoading(false);
+      })
       .catch((err) => console.log(err));
   }, []);
 
@@ -24,14 +30,21 @@ function MainPage() {
   return (
     <div className="App">
       <h1>All Beaches</h1>
-      <div>
-        <button onClick={() => history.push("/beaches/new")}>New beach</button>
-      </div>
       <section style={{ margin: 0, padding: "8px" }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Grid container justify="center" spacing={3}>
-              {data &&
+              {isLoading && !data && (
+                <CircularProgress
+                  size="140px"
+                  style={{
+                    color: theme.primaryColor,
+                    margin: "36px",
+                  }}
+                />
+              )}
+              {!isLoading &&
+                data &&
                 data.map((item, index) => {
                   return (
                     <Grid key={index} item>
