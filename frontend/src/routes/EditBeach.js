@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useHistory, useParams, Link } from "react-router-dom";
-import { getOneMethod, updateMethod } from "../helpers/services";
+import { getOneMethod, updateMethod, postMethod } from "../helpers/services";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -40,15 +42,24 @@ function EditBeach() {
   const history = useHistory();
 
   useEffect(() => {
-    getOneMethod("http://localhost:7002/beaches/", id)
-      .then((beach) => {
-        setState(beach);
-      })
-      .catch((err) => console.log(err));
+    if (id) {
+      getOneMethod("http://localhost:7002/beaches/", id)
+        .then((beach) => {
+          setState(beach);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [id]);
 
   const handleUpdate = () => {
     updateMethod("http://localhost:7002/beaches/", id, state).then((res) => {
+      console.log("SENT", res);
+      history.push("/beaches");
+    });
+  };
+
+  const handleSubmit = () => {
+    postMethod("http://localhost:7002/beaches", state).then((res) => {
       console.log("SENT", res);
       history.push("/beaches");
     });
@@ -60,7 +71,7 @@ function EditBeach() {
     <>
       <ContentContainer>
         <Typography variant="h4" className="field">
-          Edit Beach
+          {id ? 'Edit Beach' : 'Add Beach'}
         </Typography>
 
         <Grid item xs={12} md={6}>
@@ -105,11 +116,11 @@ function EditBeach() {
             }
             fullWidth
           />
-          <StyledButton onClick={handleUpdate} variant="contained">
-            Update Beach
+          <StyledButton onClick={id ? handleUpdate : handleSubmit} variant="contained">
+            {id ? 'Update Beach' : 'Add Beach'}
           </StyledButton>
         </Grid>
-        <Link to={`/beaches/${id}`}>Back to beach</Link>
+        {id && <Link to={`/beaches/${id}`}>Back to beach</Link>}
       </ContentContainer>
     </>
   );

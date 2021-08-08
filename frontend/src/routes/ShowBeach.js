@@ -81,7 +81,7 @@ function ShowBeach() {
             <Typography variant="h5">{beach.location}</Typography>
             <StyledImage
               className="media"
-              image={beach.imageUrl}
+              image={beach.imageUrl || 'https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png'}
               title="Dummy title"
               onClick={() => console.log("clicked")}
             />

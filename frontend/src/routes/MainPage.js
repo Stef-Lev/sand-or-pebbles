@@ -65,7 +65,6 @@ function MainPage() {
           </Grid>
         </Grid>
       </section>
-      )
     </div>
   );
 }
