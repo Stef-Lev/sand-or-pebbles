@@ -6,6 +6,7 @@ import { Grid, Paper } from "@material-ui/core";
 import BeachCard from "../components/BeachCard";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { theme } from "../helpers/theme";
+import ScrollTop from '../components/ScrollTop';
 
 function MainPage() {
   const [data, setData] = useState("");
@@ -64,6 +65,10 @@ function MainPage() {
             </Grid>
           </Grid>
         </Grid>
+        <ScrollTop clickAction={() => {
+          console.log('Scrolling');
+        }
+        } />
       </section>
     </div>
   );

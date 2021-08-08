@@ -39,7 +39,7 @@ export default App;
 
 // @TODOS
 // Replace simple components with material or react
-// Add scroll to top button after specific point
+// Add scroll to top button after specific point and functionality
 // Fix padding in beaches screen
 // Show page typography fluid
 // Add sand or pebble logo
