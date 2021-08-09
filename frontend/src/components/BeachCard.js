@@ -19,6 +19,11 @@ const StyledCard = styled(Card)`
   .media {
     height: 0;
     padding-top: 56.25%;
+    transition: all .15s ease-out;
+  }
+  .media:hover {
+    transform: scale(1.08);
+    transition: all .15s ease-in;
   }
 `;
 

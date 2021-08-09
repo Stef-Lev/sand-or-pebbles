@@ -2,10 +2,16 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const BeachSchema = new Schema({
-  title: String,
+  title: {
+    type: String,
+    required: [true, 'Title is required']
+  },
   description: String,
   location: String,
-  imageUrl: String
+  imageUrl: {
+    type: String,
+    required: [true, 'Title is required']
+  }
 });
 
 module.exports = mongoose.model("Beach", BeachSchema);

@@ -29,6 +29,9 @@ function App() {
           <Route exact path="/beaches/:id/edit">
             <EditBeach />
           </Route>
+          <Route exact path="*">
+            <h1>Page not found</h1>
+          </Route>
         </Switch>
       </MainContainer>
     </Router>
@@ -44,3 +47,4 @@ export default App;
 // Show page typography fluid
 // Add sand or pebble logo
 // field with sand or pebble
+// handle 404 errors

@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const catchAsync = require('./utils/wrapAsyncError');
+const ExpressError = require('./utils/ExpressError');
 const PORT = 7002;
 const path = require("path");
 const mongoose = require("mongoose");
@@ -27,38 +29,43 @@ app.get("/", (req, res) => {
   res.send(`PORT ${PORT} listening...`);
 });
 
-app.get("/beaches", async (req, res, next) => {
-  try {
+app.get("/beaches", catchAsync(async (req, res, next) => {
     const beaches = await Beach.find({});
     res.send(beaches);
-  } catch (e) {
-    next(e);
-  }
-});
+}));
 
-app.post("/beaches", async (req, res) => {
-  const beach = new Beach(req.body);
-  await beach.save();
-  res.send(req.body);
-});
+app.post("/beaches", catchAsync(async (req, res, next) => {
+    const beach = new Beach(req.body);
+    await beach.save();
+    res.send(req.body);
+}));
 
-app.get("/beaches/:id", async (req, res) => {
+app.get("/beaches/:id", catchAsync(async (req, res) => {
   const beach = await Beach.findById(req.params.id);
   res.send(beach);
-});
+}));
 
-app.put("/beaches/:id", async (req, res) => {
+app.put("/beaches/:id", catchAsync(async (req, res) => {
   const beach = await Beach.findByIdAndUpdate(
     req.params.id,
     { ...req.body },
     { new: true, useFindAndModify: false }
   );
   res.send(beach);
-});
+}));
 
-app.delete("/beaches/:id", async (req, res) => {
+app.delete("/beaches/:id", catchAsync(async (req, res) => {
   await Beach.findByIdAndDelete(req.params.id);
-  res.send(JSON.stringify("DELETED BEACH"));
+  res.json("DELETED BEACH");
+}));
+
+app.all('*', (req,res,next) => {
+  next(new ExpressError('Page not found', 404))
+})
+
+app.use((err,req,res,next) => {
+  const {status = 500, message='SOMETHING WENT WRONG'} = err;
+  res.status(status).json(message);
 });
 
 app.listen(PORT, () => {

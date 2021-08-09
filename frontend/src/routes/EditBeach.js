@@ -52,6 +52,7 @@ function EditBeach() {
   }, [id]);
 
   const handleUpdate = () => {
+    console.log('UPDATE', state);
     updateMethod("http://localhost:7002/beaches/", id, state).then((res) => {
       console.log("SENT", res);
       history.push("/beaches");
@@ -59,6 +60,7 @@ function EditBeach() {
   };
 
   const handleSubmit = () => {
+    console.log('SUBMIT', state);
     postMethod("http://localhost:7002/beaches", state).then((res) => {
       console.log("SENT", res);
       history.push("/beaches");
@@ -76,7 +78,7 @@ function EditBeach() {
 
         <Grid item xs={12} md={6}>
           <TextField
-            id="outlined-basic"
+            id="outlined-title"
             className="field"
             label="Title"
             variant="outlined"
@@ -85,7 +87,7 @@ function EditBeach() {
             fullWidth
           />
           <TextField
-            id="outlined-basic"
+            id="outlined-location"
             className="field"
             label="Location"
             variant="outlined"
@@ -94,7 +96,7 @@ function EditBeach() {
             fullWidth
           />
           <TextField
-            id="outlined-basic"
+            id="outlined-image"
             className="field"
             label="Image Url"
             variant="outlined"
@@ -103,7 +105,7 @@ function EditBeach() {
             fullWidth
           />
           <TextField
-            id="outlined-basic"
+            id="outlined-description"
             className="field"
             label="Description"
             variant="outlined"
