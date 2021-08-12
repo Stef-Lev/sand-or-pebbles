@@ -4,6 +4,7 @@ import styled from "styled-components";
 import MainPage from "./routes/MainPage";
 import ShowBeach from "./routes/ShowBeach";
 import EditBeach from "./routes/EditBeach";
+import ErrorPage from "./routes/ErrorPage";
 import Header from "./components/Header";
 import "./App.css";
 
@@ -29,9 +30,7 @@ function App() {
           <Route exact path="/beaches/:id/edit">
             <EditBeach />
           </Route>
-          <Route exact path="*">
-            <h1>Page not found</h1>
-          </Route>
+          <Route component={ErrorPage} />
         </Switch>
       </MainContainer>
     </Router>
