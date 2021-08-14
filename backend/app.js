@@ -65,15 +65,6 @@ app.get("/testerror", catchAsync(async (req, res) => {
   res.status(403).json('Not authorized');
 }));
 
-// app.use((err, req, res, next) => {
-//   console.log('ERROR_NAME****', err.name);
-//   next(err);
-// });
-
-// app.use((err, req, res, next) => {
-//   const { status, message } = err;
-//   res.status(status).json(message);
-// });
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page not found', 404))
 })
