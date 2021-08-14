@@ -61,7 +61,9 @@ function ShowBeach() {
   useEffect(() => {
     getOneMethod("http://localhost:7002/beaches/", id)
       .then((beach) => setBeach(beach))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log('ERROR', err);
+      });
   }, [id]);
 
   const handleDelete = () => {

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 import { Paper, Typography } from "@material-ui/core";
 import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
 
@@ -24,17 +25,18 @@ const ErrorIcon = styled(SentimentVeryDissatisfiedIcon)`
   height: 120px;
 `;
 
-function ErrorPage({ status, error }) {
+function ErrorPage(props) {
+    const { message, status } = useParams();
     return (
         <Paper elevation={3}>
             <Container>
                 <ErrorContainer>
                     <ErrorIcon />
                     <Typography variant="h1" style={{ fontSize: "3rem" }}>
-                        {status}
+                        {props.status ? props.status : status}
                     </Typography>
                     <Typography variant="h2" style={{ fontSize: "2.5rem" }}>
-                        {error}
+                        {props.message ? props.message : message}
                     </Typography>
                 </ErrorContainer>
             </Container>

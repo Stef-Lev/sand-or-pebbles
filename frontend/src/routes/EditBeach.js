@@ -47,7 +47,7 @@ function EditBeach() {
         .then((beach) => {
           setState(beach);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log('ERROR,ERROR!', err));
     }
   }, [id]);
 
@@ -64,7 +64,7 @@ function EditBeach() {
     postMethod("http://localhost:7002/beaches", state).then((res) => {
       console.log("SENT", res);
       history.push("/beaches");
-    });
+    }).catch((err) => console.log('ERROR,ERROR!', err));
   };
 
   const { title, location, description, imageUrl } = state;

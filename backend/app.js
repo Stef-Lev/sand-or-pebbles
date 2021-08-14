@@ -30,14 +30,15 @@ app.get("/", (req, res) => {
 });
 
 app.get("/beaches", catchAsync(async (req, res, next) => {
-    const beaches = await Beach.find({});
-    res.send(beaches);
+  const beaches = await Beach.find({});
+  res.send(beaches);
 }));
 
 app.post("/beaches", catchAsync(async (req, res, next) => {
-    const beach = new Beach(req.body);
-    await beach.save();
-    res.send(req.body);
+  if (!req.body) throw new ExpressError('Invalid beach data', 400)
+  const beach = new Beach(JSON.stringify(req.body));
+  await beach.save();
+  res.send(req.body);
 }));
 
 app.get("/beaches/:id", catchAsync(async (req, res) => {
@@ -59,13 +60,28 @@ app.delete("/beaches/:id", catchAsync(async (req, res) => {
   res.json("DELETED BEACH");
 }));
 
-app.all('*', (req,res,next) => {
+app.get("/testerror", catchAsync(async (req, res) => {
+
+  res.status(403).json('Not authorized');
+}));
+
+// app.use((err, req, res, next) => {
+//   console.log('ERROR_NAME****', err.name);
+//   next(err);
+// });
+
+// app.use((err, req, res, next) => {
+//   const { status, message } = err;
+//   res.status(status).json(message);
+// });
+app.all('*', (req, res, next) => {
   next(new ExpressError('Page not found', 404))
 })
 
-app.use((err,req,res,next) => {
-  const {status = 500, message='SOMETHING WENT WRONG'} = err;
+app.use((err, req, res, next) => {
+  const { status = 500, message = 'Something went wrong' } = err;
   res.status(status).json(message);
+  console.log('Your app is a mess')
 });
 
 app.listen(PORT, () => {

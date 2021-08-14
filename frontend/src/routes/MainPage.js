@@ -20,7 +20,9 @@ function MainPage() {
         setData(beaches);
         setIsLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const goToBeach = (id) => {

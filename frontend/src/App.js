@@ -30,7 +30,12 @@ function App() {
           <Route exact path="/beaches/:id/edit">
             <EditBeach />
           </Route>
-          <Route component={ErrorPage} />
+          <Route exact path="error/:status/:message">
+            <ErrorPage />
+          </Route>
+          <Route>
+            <ErrorPage status={500} message='Something went wrong' />
+          </Route>
         </Switch>
       </MainContainer>
     </Router>
