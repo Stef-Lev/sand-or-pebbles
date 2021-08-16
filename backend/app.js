@@ -78,3 +78,5 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Serving on port ${PORT}`);
 });
+
+// TODO: Add frontend and backend validation 
