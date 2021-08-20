@@ -6,7 +6,8 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
-import { useFormik } from 'formik';
+import { Formik, Form, Field } from 'formik';
+ import * as Yup from 'yup';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -28,6 +29,11 @@ const StyledButton = styled(Button)`
     }
   }
 `;
+
+// const validationSchema = Yup.object({
+//   title: Yup.string('Enter the beach title').required(),
+
+// })
 
 function EditBeach() {
   const { id } = useParams();
@@ -55,7 +61,7 @@ function EditBeach() {
     updateMethod("http://localhost:7002/beaches/", id, state).then((res) => {
       console.log("SENT", res);
       history.push("/beaches");
-    });
+    }).catch((err) => console.log('ERROR,ERROR!', err));
   };
 
   const handleSubmit = () => {
@@ -110,8 +116,8 @@ function EditBeach() {
             variant="outlined"
             value={description}
             multiline
-            rows={5}
-            rowsMax={10}
+            minRows={5}
+            maxRows={10}
             onChange={(e) =>
               setState({ ...state, description: e.target.value })
             }

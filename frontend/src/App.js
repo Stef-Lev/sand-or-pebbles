@@ -52,3 +52,5 @@ export default App;
 // Add sand or pebble logo
 // field with sand or pebble
 // handle all errors FE and BE
+// Rename title to name in database
+

@@ -4,13 +4,19 @@ const Schema = mongoose.Schema;
 const BeachSchema = new Schema({
   title: {
     type: String,
-    required: [true, 'Title is required']
+    required: [true, 'Name is required']
   },
-  description: String,
-  location: String,
+  location: {
+    type: String,
+    required: [true, 'Location is required']
+  },
+  description: {
+    type: String,
+    required: false
+  },
   imageUrl: {
     type: String,
-    required: [true, 'Title is required']
+    required: false
   }
 });
 

@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGO_URL, {
 const db = mongoose.connection;
 db.on("error", () => console.error("Error"));
 db.once("open", () => {
-  console.log("Database connected");
+  console.log("Database connected...");
 });
 
 app.use(cors());
@@ -31,19 +31,19 @@ app.get("/", (req, res) => {
 
 app.get("/beaches", catchAsync(async (req, res, next) => {
   const beaches = await Beach.find({});
-  res.send(beaches);
+  res.json(beaches);
 }));
 
 app.post("/beaches", catchAsync(async (req, res, next) => {
-  if (!req.body) throw new ExpressError('Invalid beach data', 400)
-  const beach = new Beach(JSON.stringify(req.body));
+  // if (!req.body) throw new ExpressError('Invalid beach data', 400)
+  const beach = new Beach(req.body);
   await beach.save();
-  res.send(req.body);
+  res.json(req.body);
 }));
 
 app.get("/beaches/:id", catchAsync(async (req, res) => {
   const beach = await Beach.findById(req.params.id);
-  res.send(beach);
+  res.json(beach);
 }));
 
 app.put("/beaches/:id", catchAsync(async (req, res) => {
@@ -52,7 +52,7 @@ app.put("/beaches/:id", catchAsync(async (req, res) => {
     { ...req.body },
     { new: true, useFindAndModify: false }
   );
-  res.send(beach);
+  res.json(beach);
 }));
 
 app.delete("/beaches/:id", catchAsync(async (req, res) => {

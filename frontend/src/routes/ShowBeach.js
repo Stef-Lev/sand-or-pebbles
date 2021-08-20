@@ -73,11 +73,12 @@ function ShowBeach() {
     });
   };
 
-  console.log(beach);
+  beach && console.log(beach);
+
   return (
     <div>
       {beach && (
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Grid item xs={12} md={6}>
             <Typography variant="h3">{beach.title}</Typography>
             <Typography variant="h5">{beach.location}</Typography>

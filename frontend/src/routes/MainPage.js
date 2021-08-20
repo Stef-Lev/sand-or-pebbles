@@ -37,7 +37,7 @@ function MainPage() {
       <section style={{ margin: 0, padding: "8px" }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Grid container justify="center" spacing={3}>
+            <Grid container justifyContent="center" spacing={3}>
               {isLoading && !data && (
                 <CircularProgress
                   size="140px"
