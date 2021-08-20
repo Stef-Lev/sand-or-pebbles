@@ -51,4 +51,4 @@ export default App;
 // Show page typography fluid
 // Add sand or pebble logo
 // field with sand or pebble
-// handle 404 errors
+// handle all errors FE and BE
