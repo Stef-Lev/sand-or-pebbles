@@ -6,8 +6,9 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { Typography } from "@material-ui/core";
-import { Formik, Form, Field } from 'formik';
- import * as Yup from 'yup';
+import { useFormik } from "formik";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -30,10 +31,14 @@ const StyledButton = styled(Button)`
   }
 `;
 
-// const validationSchema = Yup.object({
-//   title: Yup.string('Enter the beach title').required(),
-
-// })
+const validationSchema = Yup.object().shape({
+  title: Yup.string("Enter the beach title").required("Title is required"),
+  location: Yup.string("Enter the beach location").required(
+    "Location is required"
+  ),
+  description: Yup.string("Enter the beach description").max(200, "Too long"),
+  imageUrl: Yup.string("Enter the beach image").url(),
+});
 
 function EditBeach() {
   const { id } = useParams();
@@ -44,6 +49,19 @@ function EditBeach() {
     imageUrl: "",
   });
 
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      location: "",
+      description: "",
+      imageUrl: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
   const history = useHistory();
 
   useEffect(() => {
@@ -52,24 +70,28 @@ function EditBeach() {
         .then((beach) => {
           setState(beach);
         })
-        .catch((err) => console.log('ERROR,ERROR!', err));
+        .catch((err) => console.log("ERROR,ERROR!", err));
     }
   }, [id]);
 
   const handleUpdate = () => {
-    console.log('UPDATE', state);
-    updateMethod("http://localhost:7002/beaches/", id, state).then((res) => {
-      console.log("SENT", res);
-      history.push("/beaches");
-    }).catch((err) => console.log('ERROR,ERROR!', err));
+    console.log("UPDATE", state);
+    updateMethod("http://localhost:7002/beaches/", id, state)
+      .then((res) => {
+        console.log("SENT", res);
+        // history.push("/beaches");
+      })
+      .catch((err) => console.log("ERROR,ERROR!", err));
   };
 
   const handleSubmit = () => {
-    console.log('SUBMIT', state);
-    postMethod("http://localhost:7002/beaches", state).then((res) => {
-      console.log("SENT", res);
-      history.push("/beaches");
-    }).catch((err) => console.log('ERROR,ERROR!', err));
+    console.log("SUBMIT", state);
+    postMethod("http://localhost:7002/beaches", state)
+      .then((res) => {
+        console.log("SENT", res);
+        // history.push("/beaches");
+      })
+      .catch((err) => console.log("ERROR,ERROR!", err));
   };
 
   const { title, location, description, imageUrl } = state;
@@ -78,54 +100,64 @@ function EditBeach() {
     <>
       <ContentContainer>
         <Typography variant="h4" className="field">
-          {id ? 'Edit Beach' : 'Add Beach'}
+          {id ? "Edit Beach" : "Add Beach"}
         </Typography>
 
         <Grid item xs={12} md={6}>
+          <form onSubmit={formik.handleSubmit}>
           <TextField
             id="outlined-title"
             className="field"
             label="Title"
             variant="outlined"
-            value={title}
-            onChange={(e) => setState({ ...state, title: e.target.value })}
+            value={formik.values.title}
+            onChange={formik.handleChange}
             fullWidth
+            error={formik.touched.title && Boolean(formik.errors.title)}
+            helperText={formik.touched.title && formik.errors.title}
           />
           <TextField
             id="outlined-location"
             className="field"
             label="Location"
             variant="outlined"
-            value={location}
-            onChange={(e) => setState({ ...state, location: e.target.value })}
+            value={formik.values.location}
+            onChange={formik.handleChange}
             fullWidth
+            error={formik.touched.location && Boolean(formik.errors.location)}
+            helperText={formik.touched.location && formik.errors.location}
           />
           <TextField
             id="outlined-image"
             className="field"
             label="Image Url"
             variant="outlined"
-            value={imageUrl}
-            onChange={(e) => setState({ ...state, imageUrl: e.target.value })}
+            value={formik.values.imageUrl}
+            onChange={formik.handleChange}
             fullWidth
+            error={formik.touched.imageUrl && Boolean(formik.errors.imageUrl)}
           />
           <TextField
             id="outlined-description"
             className="field"
             label="Description"
             variant="outlined"
-            value={description}
+            value={formik.values.description}
             multiline
             minRows={5}
             maxRows={10}
-            onChange={(e) =>
-              setState({ ...state, description: e.target.value })
-            }
+            onChange={formik.handleChange}
             fullWidth
+            error={formik.touched.description && Boolean(formik.errors.description)}
           />
-          <StyledButton onClick={id ? handleUpdate : handleSubmit} variant="contained">
-            {id ? 'Update Beach' : 'Add Beach'}
+          <StyledButton
+            onClick={id ? handleUpdate : handleSubmit}
+            variant="contained"
+            type="submit"
+          >
+            {id ? "Update Beach" : "Add Beach"}
           </StyledButton>
+          </form>
         </Grid>
         {id && <Link to={`/beaches/${id}`}>Back to beach</Link>}
       </ContentContainer>
