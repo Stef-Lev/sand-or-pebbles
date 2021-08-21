@@ -9,6 +9,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const Beach = require("./models/beach");
 const validate = require('./utils/validate');
+const formatResponse = require('./utils/formatResponse');
 
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
@@ -26,14 +27,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  const headers = req.headers["accept-language"];
-  res.json(`PORT ${PORT} listening... Locale ==> ${headers}`);
-});
+app.get("/", catchAsync(async (req, res) => {
+  res.json(formatResponse('App is running'));
+}));
 
 app.get("/beaches", catchAsync(async (req, res, next) => {
   const beaches = await Beach.find({});
-  res.json(beaches);
+  res.json(formatResponse(beaches));
 }));
 
 app.post("/beaches", validate(), catchAsync(async (req, res, next) => {
@@ -45,7 +45,7 @@ app.post("/beaches", validate(), catchAsync(async (req, res, next) => {
 
 app.get("/beaches/:id", catchAsync(async (req, res) => {
   const beach = await Beach.findById(req.params.id);
-  res.json(beach);
+  res.json(formatResponse(beach));
 }));
 
 app.put("/beaches/:id", validate(), catchAsync(async (req, res) => {
@@ -54,7 +54,7 @@ app.put("/beaches/:id", validate(), catchAsync(async (req, res) => {
     { ...req.body },
     { new: true, useFindAndModify: false }
   );
-  res.json(beach);
+  res.json(formatResponse(beach));
 }));
 
 app.delete("/beaches/:id", catchAsync(async (req, res) => {
@@ -67,8 +67,14 @@ app.all('*', (req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-  const { status = 500, message = 'Something went wrong' } = err;
-  res.status(status).json(message);
+
+  switch (err.name) {
+    case 'CastError':
+      res.status(500).json(new ExpressError(err.name, 'Beach ID is not valid'))
+      break;
+    default:
+      res.status(500).json(new ExpressError(err.name, 'Something went wrong'))
+  }
 });
 
 app.listen(PORT, () => {

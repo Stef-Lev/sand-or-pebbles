@@ -16,12 +16,12 @@ function MainPage() {
 
   useEffect(() => {
     getAllMethod("http://localhost:7002/beaches")
-      .then((beaches) => {
-        setData(beaches);
+      .then((response) => {
+        response.result === 'success' ? setData(response.data) : history.push(`/error/${response.status || 500}/${response.type}`);
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        history.push(`/error/${err.status || 500}/${err.message}`);
       });
   }, []);
 

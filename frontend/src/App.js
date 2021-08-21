@@ -30,11 +30,11 @@ function App() {
           <Route exact path="/beaches/:id/edit">
             <EditBeach />
           </Route>
-          <Route exact path="error/:status/:message">
+          <Route exact path="/error/:status/:message">
             <ErrorPage />
           </Route>
-          <Route>
-            <ErrorPage status={500} message='Something went wrong' />
+          <Route >
+            <ErrorPage status={404} message='Something went wrong' />
           </Route>
         </Switch>
       </MainContainer>

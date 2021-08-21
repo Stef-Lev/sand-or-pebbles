@@ -60,9 +60,11 @@ function ShowBeach() {
 
   useEffect(() => {
     getOneMethod("http://localhost:7002/beaches/", id)
-      .then((beach) => setBeach(beach))
+      .then((response) => {
+        response.result === 'success' ? setBeach(response.data) : history.push(`/error/${response.status}/${response.type}`);
+      })
       .catch((err) => {
-        console.log('ERROR', err);
+        history.push(`/error/${err.status}/${err.message}`);
       });
   }, [id]);
 
