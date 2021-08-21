@@ -16,7 +16,8 @@
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
     "mongoose": "^5.12.13",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "prettier": "2.3.0"

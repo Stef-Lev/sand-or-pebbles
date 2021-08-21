@@ -8,6 +8,7 @@ const PORT = 7002;
 const path = require("path");
 const mongoose = require("mongoose");
 const Beach = require("./models/beach");
+const validate = require('./utils/validate');
 
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
@@ -26,7 +27,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.send(`PORT ${PORT} listening...`);
+  const headers = req.headers["accept-language"];
+  res.json(`PORT ${PORT} listening... Locale ==> ${headers}`);
 });
 
 app.get("/beaches", catchAsync(async (req, res, next) => {
@@ -34,7 +36,7 @@ app.get("/beaches", catchAsync(async (req, res, next) => {
   res.json(beaches);
 }));
 
-app.post("/beaches", catchAsync(async (req, res, next) => {
+app.post("/beaches", validate(), catchAsync(async (req, res, next) => {
   // if (!req.body) throw new ExpressError('Invalid beach data', 400)
   const beach = new Beach(req.body);
   await beach.save();
@@ -46,7 +48,7 @@ app.get("/beaches/:id", catchAsync(async (req, res) => {
   res.json(beach);
 }));
 
-app.put("/beaches/:id", catchAsync(async (req, res) => {
+app.put("/beaches/:id", validate(), catchAsync(async (req, res) => {
   const beach = await Beach.findByIdAndUpdate(
     req.params.id,
     { ...req.body },
@@ -59,12 +61,7 @@ app.delete("/beaches/:id", catchAsync(async (req, res) => {
   await Beach.findByIdAndDelete(req.params.id);
   res.json("DELETED BEACH");
 }));
-
-app.get("/testerror", catchAsync(async (req, res) => {
-
-  res.status(403).json('Not authorized');
-}));
-
+// TODO: Check if this is needed
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page not found', 404))
 })
@@ -72,7 +69,6 @@ app.all('*', (req, res, next) => {
 app.use((err, req, res, next) => {
   const { status = 500, message = 'Something went wrong' } = err;
   res.status(status).json(message);
-  console.log('Your app is a mess')
 });
 
 app.listen(PORT, () => {
