@@ -29,7 +29,10 @@ function MainPage() {
     history.push(`/beaches/${id}`);
   };
 
-  console.log(data);
+  useEffect(() => {
+    // Check if fetches all data
+    data.length > 0 && console.log(data);
+  }, [data])
 
   return (
     <div className="App">
