@@ -9,6 +9,7 @@ import { handleApiResponse as handleRes } from '../helpers/handleApiResponse';
 import { Typography } from "@material-ui/core";
 import { useFormik } from "formik";
 import { validationSchema } from "../helpers/validationSchema";
+import SandSlider from "../components/SandSlider";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -135,6 +136,7 @@ function EditBeach() {
               error={formik.touched.imageUrl && Boolean(formik.errors.imageUrl)}
               helperText={formik.touched.imageUrl && formik.errors.imageUrl}
             />
+            <SandSlider />
             <TextField
               id="outlined-description"
               name="description"
