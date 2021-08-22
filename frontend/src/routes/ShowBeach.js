@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { getOneMethod, deleteMethod } from "../helpers/services";
 import styled from "styled-components";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -66,7 +66,7 @@ function ShowBeach() {
       .catch((err) => {
         history.push(`/error/${err.status}/${err.message}`);
       });
-  }, [id]);
+  }, [id, history]);
 
   const handleDelete = () => {
     deleteMethod("http://localhost:7002/beaches/", id).then((res) => {

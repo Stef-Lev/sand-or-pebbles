@@ -9,4 +9,12 @@ const validationSchema = Yup.object().shape({
     imageUrl: Yup.string("Enter the beach image").url("Please use a valid url"),
 });
 
+// Debugging backend validation
+// const validationSchema = Yup.object().shape({
+//     title: Yup.string(),
+//     location: Yup.string(),
+//     description: Yup.string(),
+//     imageUrl: Yup.string(),
+// });
+
 export { validationSchema };

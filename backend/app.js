@@ -36,7 +36,7 @@ app.get("/beaches", catchAsync(async (req, res, next) => {
   res.json(formatResponse(beaches));
 }));
 
-app.post("/beaches", validate(), catchAsync(async (req, res, next) => {
+app.post("/beaches", validate, catchAsync(async (req, res, next) => {
   // if (!req.body) throw new ExpressError('Invalid beach data', 400)
   const beach = new Beach(req.body);
   await beach.save();
@@ -48,7 +48,7 @@ app.get("/beaches/:id", catchAsync(async (req, res) => {
   res.json(formatResponse(beach));
 }));
 
-app.put("/beaches/:id", validate(), catchAsync(async (req, res) => {
+app.put("/beaches/:id", validate, catchAsync(async (req, res) => {
   const beach = await Beach.findByIdAndUpdate(
     req.params.id,
     { ...req.body },
@@ -70,7 +70,10 @@ app.use((err, req, res, next) => {
 
   switch (err.name) {
     case 'CastError':
-      res.status(500).json(new ExpressError(err.name, 'Beach ID is not valid'))
+      res.status(500).json(new ExpressError(undefined, err.name, 'Beach ID is not valid', 500))
+      break;
+    case 'ValidationError':
+      res.status(400).json(new ExpressError(undefined, err.name, err.message, 403))
       break;
     default:
       res.status(500).json(new ExpressError(err.name, 'Something went wrong'))
@@ -80,5 +83,3 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Serving on port ${PORT}`);
 });
-
-// TODO: Add frontend and backend validation 

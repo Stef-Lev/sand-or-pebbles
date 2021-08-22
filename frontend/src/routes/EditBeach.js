@@ -5,6 +5,7 @@ import { getOneMethod, updateMethod, postMethod } from "../helpers/services";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import { handleApiResponse as handleRes } from '../helpers/handleApiResponse';
 import { Typography } from "@material-ui/core";
 import { useFormik } from "formik";
 import { validationSchema } from "../helpers/validationSchema";
@@ -58,8 +59,8 @@ function EditBeach() {
   useEffect(() => {
     if (id) {
       getOneMethod("http://localhost:7002/beaches/", id)
-        .then((beach) => {
-          setState(beach);
+        .then((response) => {
+          setState(response.data);
         })
         .catch((err) => console.log("ERROR,ERROR!", err));
     }
@@ -68,9 +69,11 @@ function EditBeach() {
   const handleUpdate = (values) => {
     console.log("UPDATE", values);
     updateMethod("http://localhost:7002/beaches/", id, values)
-      .then((res) => {
-        console.log("SENT", res);
-        // history.push("/beaches");
+      .then((response) => {
+        handleRes(response,
+          () => history.push('/beaches'),
+          () => console.log('Open Modal')
+        )
       })
       .catch((err) => console.log("ERROR,ERROR!", err));
   };
@@ -78,14 +81,14 @@ function EditBeach() {
   const handleSubmit = (values) => {
     console.log("SUBMIT", values);
     postMethod("http://localhost:7002/beaches", values)
-      .then((res) => {
-        console.log("SENT", res);
-        // history.push("/beaches");
+      .then((response) => {
+        handleRes(response,
+          () => history.push('/beaches'),
+          () => console.log('Open Modal')
+        )
       })
       .catch((err) => console.log("ERROR,ERROR!", err));
   };
-
-  const { title, location, description, imageUrl } = state;
 
   return (
     <>
