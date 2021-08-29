@@ -2,6 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+import { theme } from '../helpers/theme';
 
 const marks = [
     {
@@ -23,22 +24,18 @@ const marks = [
 
 // Make images dynamic
 const StyledSlider = styled(Slider)`
-.MuiSlider-mark {
-    width: 40px;
-    height: 40px;
-    background: url('https://thumbs.dreamstime.com/z/seamless-sand-light-beach-square-texture-39124846.jpg');
-    position: absolute;
-    top: 50%;
-    right 50%;
-    transform: translate(-50%,-50%);
-    border: 1px solid black;
-    border-radius: 50%;
-}
+    && {
+        color: ${theme.primaryColor};
+        font-size: 16px;
+    }
+    .MuiSlider-markLabelActive {
+        color: ${theme.primaryColor};
+    }
 `;
 
 function SandSlider() {
     return (
-        <div style={{ padding: '20px 44px' }}>
+        <div>
             <Typography id="discrete-slider" gutterBottom>
                 Sand
             </Typography>

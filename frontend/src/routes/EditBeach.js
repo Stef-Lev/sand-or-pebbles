@@ -10,6 +10,7 @@ import { Typography } from "@material-ui/core";
 import { useFormik } from "formik";
 import { validationSchema } from "../helpers/validationSchema";
 import SandSlider from "../components/SandSlider";
+import { theme } from '../helpers/theme';
 
 const ContentContainer = styled.div`
   display: flex;
@@ -24,12 +25,23 @@ const ContentContainer = styled.div`
 
 const StyledButton = styled(Button)`
   && {
-    background-color: #006994;
+    background-color: ${theme.primaryColor};
     color: white;
     :hover {
       background-color: #0a4861;
     }
   }
+`;
+
+const Field = styled(TextField)`
+& label.Mui-focused {
+  color: ${theme.primaryColor};
+}
+& .MuiOutlinedInput-root {
+  &.Mui-focused fieldset {
+    border-color: ${theme.primaryColor};
+  }
+}
 `;
 
 function EditBeach() {
@@ -100,7 +112,7 @@ function EditBeach() {
 
         <Grid item xs={12} md={6}>
           <form onSubmit={formik.handleSubmit}>
-            <TextField
+            <Field
               id="outlined-title"
               name="title"
               className="field"
@@ -112,7 +124,7 @@ function EditBeach() {
               error={formik.touched.title && Boolean(formik.errors.title)}
               helperText={formik.touched.title && formik.errors.title}
             />
-            <TextField
+            <Field
               id="outlined-location"
               name="location"
               className="field"
@@ -124,7 +136,7 @@ function EditBeach() {
               error={formik.touched.location && Boolean(formik.errors.location)}
               helperText={formik.touched.location && formik.errors.location}
             />
-            <TextField
+            <Field
               id="outlined-image"
               name="imageUrl"
               className="field"
@@ -137,7 +149,7 @@ function EditBeach() {
               helperText={formik.touched.imageUrl && formik.errors.imageUrl}
             />
             <SandSlider />
-            <TextField
+            <Field
               id="outlined-description"
               name="description"
               className="field"
