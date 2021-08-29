@@ -7,24 +7,28 @@ import { theme } from '../helpers/theme';
 
 const grainScale = [
     {
-        url: 'https://thumbs.dreamstime.com/z/seamless-sand-light-beach-square-texture-39124846.jpg',
+        url: '/assets/sand-fine.png',
         label: 'Fine sand'
     },
     {
-        url: 'https://previews.123rf.com/images/farang/farang1303/farang130300002/18239754-tropical-beach-square-composition.jpg',
-        label: 'Sand'
-    },
-    {
-        url: 'https://thumbs.dreamstime.com/z/seamless-sand-light-beach-square-texture-39124846.jpg',
+        url: '/assets/sand-medium.png',
         label: 'Medium sand'
     },
     {
-        url: 'https://thumbs.dreamstime.com/z/seamless-sand-light-beach-square-texture-39124846.jpg',
+        url: '/assets/sand-granules.png',
+        label: 'Granules'
+    },
+    {
+        url: '/assets/sand-mixed.png',
+        label: 'Mixed'
+    },
+    {
+        url: '/assets/sand-pebbles.png',
         label: 'Pebbles'
     },
     {
-        url: 'https://thumbs.dreamstime.com/z/seamless-sand-light-beach-square-texture-39124846.jpg',
-        label: 'Huge pebbles'
+        url: '/assets/sand-cobbles.png',
+        label: 'Cobbles'
     }
 ];
 
@@ -37,6 +41,10 @@ const StyledSlider = styled(Slider)`
         color: ${theme.primaryColor};
     }
 `;
+const MainContainer = styled.div`
+   padding: 16px;
+   margin-bottom: 16px;
+`;
 
 const ImageContainer = styled.div`
     display: flex;
@@ -44,19 +52,21 @@ const ImageContainer = styled.div`
     justify-content: center;
     align-items: center;
     margin-bottom: 16px;
+    color: ${theme.primaryColor};
+    font-style: italic;
 `;
 
 const Image = styled.img`
-    width: 100px;
-    height: 100px;
+    width: 85px;
+    height: 85px;
     border-radius: 50%;
     margin-bottom: 10px;
 `;
 
-const SandSlider = () => {
+const SandSlider = (props) => {
 
     const [value, setValue] = React.useState(3);
-    const [image, setImage] = useState(grainScale[value - 1]);
+    const [image, setImage] = useState(props.current ? grainScale[props.current - 1] : grainScale[value - 1]);
 
     const handleSliderChange = (event, newValue) => {
         setValue(newValue);
@@ -71,7 +81,7 @@ const SandSlider = () => {
 
     // @TODO: import images for each mark
     return (
-        <div>
+        <MainContainer>
             <ImageContainer>
                 <Image src={image.url} />
                 <Typography>
@@ -91,7 +101,7 @@ const SandSlider = () => {
                         step={1}
                         marks
                         min={1}
-                        max={5}
+                        max={6}
                     />
                 </Grid>
                 <Grid item>
@@ -100,7 +110,7 @@ const SandSlider = () => {
                     </Typography>
                 </Grid>
             </Grid>
-        </div>
+        </MainContainer>
     )
 }
 
