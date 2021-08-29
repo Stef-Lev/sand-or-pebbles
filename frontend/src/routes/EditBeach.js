@@ -34,14 +34,14 @@ const StyledButton = styled(Button)`
 `;
 
 const Field = styled(TextField)`
-& label.Mui-focused {
-  color: ${theme.primaryColor};
-}
-& .MuiOutlinedInput-root {
-  &.Mui-focused fieldset {
-    border-color: ${theme.primaryColor};
+  & label.Mui-focused {
+    color: ${theme.primaryColor};
   }
-}
+  & .MuiOutlinedInput-root {
+    &.Mui-focused fieldset {
+      border-color: ${theme.primaryColor};
+    }
+  }
 `;
 
 function EditBeach() {
