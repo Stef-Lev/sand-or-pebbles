@@ -36,6 +36,7 @@ const StyledSlider = styled(Slider)`
     && {
         color: ${theme.primaryColor};
         font-size: 16px;
+        padding: 0;
     }
     .MuiSlider-markLabelActive {
         color: ${theme.primaryColor};
@@ -65,7 +66,7 @@ const Image = styled.img`
 
 const SandSlider = (props) => {
 
-    const [value, setValue] = React.useState(3);
+    const [value, setValue] = React.useState(2);
     const [image, setImage] = useState(props.current ? grainScale[props.current - 1] : grainScale[value - 1]);
 
     const handleSliderChange = (event, newValue) => {
