@@ -1,20 +1,11 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-  useCallback,
-} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { getOneMethod, updateMethod, postMethod } from "../helpers/services";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { handleApiResponse as handleRes } from "../helpers/handleApiResponse";
 import { Typography } from "@material-ui/core";
 import { Form, Formik } from "formik";
-import { useFormik } from "formik";
 import { validationSchema } from "../helpers/validationSchema";
 import { theme } from "../helpers/theme";
 import TextInput from "../components/TextInput";
@@ -39,7 +30,7 @@ const inputStyle = {
 
 const EditBeach = () => {
   const { id } = useParams();
-  const formRef = useRef(null);
+  const [loading, setLoading] = useState(true);
   const [state, setState] = useState({
     title: "",
     location: "",
@@ -48,7 +39,6 @@ const EditBeach = () => {
     imageUrl: "",
     sandQuality: 3,
   });
-  const [loading, setLoading] = useState(true);
 
   const INITIAL_FORM_VALUES = {
     title: id && state.title ? state.title : "",
@@ -69,6 +59,8 @@ const EditBeach = () => {
           setLoading(false);
         })
         .catch((err) => console.log("ERROR,ERROR!", err));
+    } else {
+      setLoading(false);
     }
   }, [id]);
 
@@ -76,7 +68,6 @@ const EditBeach = () => {
     console.log("UPDATE", values);
     updateMethod("http://localhost:7002/beaches/", id, values)
       .then((response) => {
-        setLoading(false);
         handleRes(
           response,
           () => history.push("/beaches"),
@@ -92,7 +83,10 @@ const EditBeach = () => {
       .then((response) => {
         handleRes(
           response,
-          () => history.push("/beaches"),
+          () => {
+            console.log("SUCCESS!!!");
+            history.push("/beaches");
+          },
           () => console.log("Open Modal")
         );
       })
@@ -102,13 +96,17 @@ const EditBeach = () => {
   return (
     <>
       {loading && (
-        <CircularProgress
-          size="140px"
-          style={{
-            color: theme.primaryColor,
-            margin: "36px",
-          }}
-        />
+        <ContentContainer>
+          <Grid item xs={12} md={6}>
+            <CircularProgress
+              size="140px"
+              style={{
+                color: theme.primaryColor,
+                margin: "36px",
+              }}
+            />
+          </Grid>
+        </ContentContainer>
       )}
       {!loading && (
         <ContentContainer>
@@ -118,7 +116,6 @@ const EditBeach = () => {
 
           <Grid item xs={12} md={6}>
             <Formik
-              innerRef={formRef}
               initialValues={{ ...INITIAL_FORM_VALUES }}
               enableReinitialize={true}
               validationSchema={validationSchema}
@@ -127,11 +124,7 @@ const EditBeach = () => {
               }}
             >
               {(props) => {
-                const { values, initialValues, setFieldValue } = props;
-
-                // console.log(values);
-                console.log("INITIAL", initialValues.sandQuality);
-                console.log("STATE", state.sandQuality);
+                const { setFieldValue } = props;
 
                 return (
                   <Form>

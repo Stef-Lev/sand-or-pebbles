@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import { theme } from "../helpers/theme";
-import { useField } from "formik";
 
 const grainScale = [
   {
@@ -92,11 +91,6 @@ const SliderInput = (props) => {
     setImage(grainScale[inputValue - 1]);
     formikFn("sandQuality", newValue);
   };
-
-  useEffect(() => {
-    console.log("FINAL VALUE===>", inputValue);
-    console.log(image);
-  }, [inputValue]);
 
   return (
     <MainContainer>
