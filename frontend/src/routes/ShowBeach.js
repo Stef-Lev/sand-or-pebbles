@@ -6,6 +6,9 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import { Image } from "../components/SliderInput";
+import { ImageContainer } from "../components/SliderInput";
+import { grainScale } from "../components/SliderInput";
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -17,12 +20,19 @@ const ButtonContainer = styled.div`
 `;
 
 const Description = styled.div`
-  border-radius: 0 0 20px 20px;
-  border: 1px solid #a9a9a9;
+  display: flex;
+  width: 100%;
   color: #808080;
   font-style: italic;
   margin-top: 20px;
-  padding: 16px;
+
+  p::nth-child(2) {
+    margin-right: 16px;
+    width: 80%;
+  }
+  div {
+    width: 20%;
+  }
 `;
 
 const EditButton = styled(Button)`
@@ -61,7 +71,9 @@ function ShowBeach() {
   useEffect(() => {
     getOneMethod("http://localhost:7002/beaches/", id)
       .then((response) => {
-        response.result === 'success' ? setBeach(response.data) : history.push(`/error/${response.status}/${response.type}`);
+        response.result === "success"
+          ? setBeach(response.data)
+          : history.push(`/error/${response.status}/${response.type}`);
       })
       .catch((err) => {
         history.push(`/error/${err.status}/${err.message}`);
@@ -86,13 +98,22 @@ function ShowBeach() {
             <Typography variant="h5">{beach.location}</Typography>
             <StyledImage
               className="media"
-              image={beach.imageUrl || 'https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png'}
-              title="Dummy title"
+              image={
+                beach.imageUrl ||
+                "https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png"
+              }
+              title={beach.title}
               onClick={() => console.log("clicked")}
             />
             {beach.description && (
               <Description>
                 <p>{beach.description}</p>
+                <ImageContainer>
+                  <Image src={grainScale[beach.sandQuality - 1].url} />
+                  <Typography>
+                    {grainScale[beach.sandQuality - 1].label}
+                  </Typography>
+                </ImageContainer>
               </Description>
             )}
             <ButtonContainer>

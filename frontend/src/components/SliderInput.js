@@ -121,5 +121,6 @@ const SliderInput = (props) => {
     </MainContainer>
   );
 };
+export { grainScale, Image, ImageContainer };
 
 export default SliderInput;
