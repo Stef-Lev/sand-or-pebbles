@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { getOneMethod, updateMethod, postMethod } from "../helpers/services";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import { handleApiResponse as handleRes } from '../helpers/handleApiResponse';
+import { handleApiResponse as handleRes } from "../helpers/handleApiResponse";
 import { Typography } from "@material-ui/core";
-import { useFormik } from "formik";
+import { Form, Formik } from "formik";
 import { validationSchema } from "../helpers/validationSchema";
-import SandSlider from "../components/SandSlider";
-import { theme } from '../helpers/theme';
+import { theme } from "../helpers/theme";
+import TextInput from "../components/TextInput";
+import SliderInput from "../components/SliderInput";
+import FormButton from "../components/FormButton";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -23,49 +24,30 @@ const ContentContainer = styled.div`
   }
 `;
 
-const StyledButton = styled(Button)`
-  && {
-    background-color: ${theme.primaryColor};
-    color: white;
-    :hover {
-      background-color: #0a4861;
-    }
-  }
-`;
+const inputStyle = {
+  marginBottom: "22px",
+};
 
-const Field = styled(TextField)`
-  & label.Mui-focused {
-    color: ${theme.primaryColor};
-  }
-  & .MuiOutlinedInput-root {
-    &.Mui-focused fieldset {
-      border-color: ${theme.primaryColor};
-    }
-  }
-`;
-
-function EditBeach() {
+const EditBeach = () => {
   const { id } = useParams();
+  const [loading, setLoading] = useState(true);
   const [state, setState] = useState({
     title: "",
     location: "",
     description: "",
+    type: "",
     imageUrl: "",
+    sandQuality: 3,
   });
 
-  const formik = useFormik({
-    initialValues: {
-      title: id && state.title ? state.title : "",
-      location: id && state.location ? state.location : "",
-      description: id && state.description ? state.description : "",
-      imageUrl: id && state.imageUrl ? state.imageUrl : "",
-    },
-    enableReinitialize: true,
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      id ? handleUpdate(values) : handleSubmit(values);
-    },
-  });
+  const INITIAL_FORM_VALUES = {
+    title: id && state.title ? state.title : "",
+    location: id && state.location ? state.location : "",
+    description: id && state.description ? state.description : "",
+    type: id && state.type ? state.type : "",
+    imageUrl: id && state.imageUrl ? state.imageUrl : "",
+    sandQuality: id && state.sandQuality ? state.sandQuality : 3,
+  };
 
   const history = useHistory();
 
@@ -74,8 +56,11 @@ function EditBeach() {
       getOneMethod("http://localhost:7002/beaches/", id)
         .then((response) => {
           setState(response.data);
+          setLoading(false);
         })
         .catch((err) => console.log("ERROR,ERROR!", err));
+    } else {
+      setLoading(false);
     }
   }, [id]);
 
@@ -83,10 +68,11 @@ function EditBeach() {
     console.log("UPDATE", values);
     updateMethod("http://localhost:7002/beaches/", id, values)
       .then((response) => {
-        handleRes(response,
-          () => history.push('/beaches'),
-          () => console.log('Open Modal')
-        )
+        handleRes(
+          response,
+          () => history.push("/beaches"),
+          () => console.log("Open Modal")
+        );
       })
       .catch((err) => console.log("ERROR,ERROR!", err));
   };
@@ -95,87 +81,87 @@ function EditBeach() {
     console.log("SUBMIT", values);
     postMethod("http://localhost:7002/beaches", values)
       .then((response) => {
-        handleRes(response,
-          () => history.push('/beaches'),
-          () => console.log('Open Modal')
-        )
+        handleRes(
+          response,
+          () => {
+            console.log("SUCCESS!!!");
+            history.push("/beaches");
+          },
+          () => console.log("Open Modal")
+        );
       })
       .catch((err) => console.log("ERROR,ERROR!", err));
   };
 
   return (
     <>
-      <ContentContainer>
-        <Typography variant="h4" className="field">
-          {id ? "Edit Beach" : "Add Beach"}
-        </Typography>
+      {loading && (
+        <ContentContainer>
+          <Grid item xs={12} md={6}>
+            <CircularProgress
+              size="140px"
+              style={{
+                color: theme.primaryColor,
+                margin: "36px",
+              }}
+            />
+          </Grid>
+        </ContentContainer>
+      )}
+      {!loading && (
+        <ContentContainer>
+          <Typography variant="h4" className="field">
+            {id ? "Edit Beach" : "Add Beach"}
+          </Typography>
 
-        <Grid item xs={12} md={6}>
-          <form onSubmit={formik.handleSubmit}>
-            <Field
-              id="outlined-title"
-              name="title"
-              className="field"
-              label="Title"
-              variant="outlined"
-              value={formik.values.title}
-              onChange={formik.handleChange}
-              fullWidth
-              error={formik.touched.title && Boolean(formik.errors.title)}
-              helperText={formik.touched.title && formik.errors.title}
-            />
-            <Field
-              id="outlined-location"
-              name="location"
-              className="field"
-              label="Location"
-              variant="outlined"
-              value={formik.values.location}
-              onChange={formik.handleChange}
-              fullWidth
-              error={formik.touched.location && Boolean(formik.errors.location)}
-              helperText={formik.touched.location && formik.errors.location}
-            />
-            <Field
-              id="outlined-image"
-              name="imageUrl"
-              className="field"
-              label="Image Url"
-              variant="outlined"
-              value={formik.values.imageUrl}
-              onChange={formik.handleChange}
-              fullWidth
-              error={formik.touched.imageUrl && Boolean(formik.errors.imageUrl)}
-              helperText={formik.touched.imageUrl && formik.errors.imageUrl}
-            />
-            <SandSlider />
-            <Field
-              id="outlined-description"
-              name="description"
-              className="field"
-              label="Description"
-              variant="outlined"
-              value={formik.values.description}
-              multiline
-              minRows={5}
-              maxRows={10}
-              onChange={formik.handleChange}
-              fullWidth
-              error={formik.touched.description && Boolean(formik.errors.description)}
-              helperText={formik.touched.description && formik.errors.description}
-            />
-            <StyledButton
-              variant="contained"
-              type="submit"
+          <Grid item xs={12} md={6}>
+            <Formik
+              initialValues={{ ...INITIAL_FORM_VALUES }}
+              enableReinitialize={true}
+              validationSchema={validationSchema}
+              onSubmit={(values) => {
+                id ? handleUpdate(values) : handleSubmit(values);
+              }}
             >
-              {id ? "Update Beach" : "Add Beach"}
-            </StyledButton>
-          </form>
-        </Grid>
-        {id && <Link to={`/beaches/${id}`}>Back to beach</Link>}
-      </ContentContainer>
+              {(props) => {
+                const { setFieldValue } = props;
+
+                return (
+                  <Form>
+                    <TextInput name="title" label="Title" style={inputStyle} />
+                    <TextInput
+                      name="location"
+                      label="Location"
+                      style={inputStyle}
+                    />
+                    <TextInput
+                      name="imageUrl"
+                      label="Image URL"
+                      style={inputStyle}
+                    />
+                    <SliderInput
+                      onFormChange={setFieldValue}
+                      defaultValue={state.sandQuality}
+                    />
+                    <TextInput
+                      name="description"
+                      label="Description"
+                      multiline
+                      minRows={5}
+                      maxRows={10}
+                      style={inputStyle}
+                    />
+                    <FormButton>{id ? "Update Beach" : "Add Beach"}</FormButton>
+                  </Form>
+                );
+              }}
+            </Formik>
+          </Grid>
+          {id && <Link to={`/beaches/${id}`}>Back to beach</Link>}
+        </ContentContainer>
+      )}
     </>
   );
-}
+};
 
 export default EditBeach;

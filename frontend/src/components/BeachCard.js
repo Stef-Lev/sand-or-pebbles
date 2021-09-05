@@ -17,13 +17,32 @@ const StyledCard = styled(Card)`
   height: 370px;
 
   .media {
+    position: relative;
     height: 0;
     padding-top: 56.25%;
-    transition: all .15s ease-out;
-  }
-  .media:hover {
-    transform: scale(1.08);
-    transition: all .15s ease-in;
+    transition: all 0.15s ease-out;
+
+    &::after {
+      transition: all 0.25s ease-in;
+      content: "";
+      background-color: black;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0.4;
+      width: 100%;
+      height: 100%;
+    }
+
+    &:hover {
+      transform: scale(1.08);
+      transition: all 0.15s ease-in;
+
+      &::after {
+      width: 0%;
+      transition: all 0.25s ease-in;
+    }
+    }
   }
 `;
 
