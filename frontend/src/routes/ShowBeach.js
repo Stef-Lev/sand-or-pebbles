@@ -20,6 +20,7 @@ const ButtonContainer = styled.div`
 `;
 
 const Description = styled.div`
+  position: relative;
   display: flex;
   width: 100%;
   color: #808080;

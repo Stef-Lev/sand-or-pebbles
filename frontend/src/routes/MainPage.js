@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 // import styled from "styled-components";
 import { getAllMethod } from "../helpers/services";
+import { changeColorBrightness } from "../helpers/changeColorBrightness";
 import { Grid, Paper } from "@material-ui/core";
 import BeachCard from "../components/BeachCard";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { theme } from "../helpers/theme";
-import ScrollTop from '../components/ScrollTop';
+import IconBtn from "../components/IconBtn";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 
 function MainPage() {
   const [data, setData] = useState("");
@@ -17,7 +19,9 @@ function MainPage() {
   useEffect(() => {
     getAllMethod("http://localhost:7002/beaches")
       .then((response) => {
-        response.result === 'success' ? setData(response.data) : history.push(`/error/${response.status || 500}/${response.type}`);
+        response.result === "success"
+          ? setData(response.data)
+          : history.push(`/error/${response.status || 500}/${response.type}`);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -29,10 +33,18 @@ function MainPage() {
     history.push(`/beaches/${id}`);
   };
 
+  const scrollToTop = () => {
+    let rootElement = document.documentElement;
+    rootElement.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   useEffect(() => {
     // Check if fetches all data
     data.length > 0 && console.log(data);
-  }, [data])
+  }, [data]);
 
   return (
     <div className="App">
@@ -70,10 +82,14 @@ function MainPage() {
             </Grid>
           </Grid>
         </Grid>
-        <ScrollTop clickAction={() => {
-          console.log('Scrolling');
-        }
-        } />
+        <IconBtn
+          onClick={scrollToTop}
+          backgroundColor={theme.primaryColor}
+          hoverColor={changeColorBrightness(theme.primaryColor, -10)}
+          color="#FFF"
+        >
+          <ArrowUpwardIcon />
+        </IconBtn>
       </section>
     </div>
   );
