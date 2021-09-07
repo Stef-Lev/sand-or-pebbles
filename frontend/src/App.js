@@ -44,7 +44,7 @@ function App() {
 
 export default App;
 
-// @TODOS
+// @TODO:
 // ---------------------
 // Add scroll to top button after specific point and functionality
 // Fix padding in beaches screen
@@ -52,3 +52,4 @@ export default App;
 // Add sand or pebble logo
 // Rename title to name in database
 // Change sand quality to showPage
+// Add validations and make review a formik form

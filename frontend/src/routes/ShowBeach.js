@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { getOneMethod, deleteMethod } from "../helpers/services";
+import { getOneMethod, deleteMethod, postMethod } from "../helpers/services";
 import styled from "styled-components";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
@@ -9,6 +9,10 @@ import Grid from "@material-ui/core/Grid";
 import { Image } from "../components/SliderInput";
 import { ImageContainer } from "../components/SliderInput";
 import { grainScale } from "../components/SliderInput";
+import Rating from "@material-ui/lab/Rating";
+import TextField from "@material-ui/core/TextField";
+import { theme } from "../helpers/theme";
+import { handleApiResponse as handleRes } from "../helpers/handleApiResponse";
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -35,9 +39,27 @@ const Description = styled.div`
   }
 `;
 
+const ReviewContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
+`;
+
+const ReviewTextField = styled(TextField)`
+  & label.Mui-focused {
+    color: ${theme.primaryColor};
+  }
+  & .MuiOutlinedInput-root {
+    &.Mui-focused fieldset {
+      border-color: ${theme.primaryColor};
+    }
+  }
+`;
+
 const EditButton = styled(Button)`
   && {
-    background-color: #006994;
+    background-color: ${theme.primaryColor};
     color: white;
     :hover {
       background-color: #0a4861;
@@ -55,10 +77,20 @@ const CancelButton = styled(Button)`
   }
 `;
 
+const SubmitReviewButton = styled(Button)`
+  && {
+    background-color: ${theme.secondaryColor};
+    color: white;
+    :hover {
+      background-color: #a87a4d;
+    }
+  }
+`;
+
 const StyledImage = styled(CardMedia)`
   height: 0;
   padding-top: 56.25%;
-  border-radius: 10px 10px 0 0;
+  border-radius: 6px;
   margin-top: 20px;
 `;
 
@@ -67,6 +99,7 @@ function ShowBeach() {
   const history = useHistory();
 
   const [beach, setBeach] = useState(null);
+  const [review, setReview] = useState({ rating: 2, text: "" });
 
   useEffect(() => {
     getOneMethod("http://localhost:7002/beaches/", id)
@@ -87,6 +120,22 @@ function ShowBeach() {
     });
   };
 
+  const handleReviewSubmit = () => {
+    console.log("Submitted");
+    postMethod(`http://localhost:7002/beaches/${id}/reviews`, review)
+      .then((response) => {
+        handleRes(
+          response,
+          () => {
+            console.log("SUCCESS!!!");
+            history.push(`/beaches/${id}`);
+          },
+          () => console.log("Open Modal")
+        );
+      })
+      .catch((err) => console.log("ERROR,ERROR!", err));
+  };
+
   beach && console.log(beach);
 
   return (
@@ -105,23 +154,47 @@ function ShowBeach() {
               title={beach.title}
               onClick={() => console.log("clicked")}
             />
-            {beach.description && (
-              <Description>
-                <p>{beach.description}</p>
-                <ImageContainer>
-                  <Image src={grainScale[beach.sandQuality - 1].url} />
-                  <Typography>
-                    {grainScale[beach.sandQuality - 1].label}
-                  </Typography>
-                </ImageContainer>
-              </Description>
-            )}
+            <Description>
+              <p>{beach.description}</p>
+              <ImageContainer>
+                <Image src={grainScale[beach.sandQuality - 1].url} />
+                <Typography>
+                  {grainScale[beach.sandQuality - 1].label}
+                </Typography>
+              </ImageContainer>
+            </Description>
             <ButtonContainer>
               <EditButton onClick={() => history.push(`/beaches/${id}/edit`)}>
                 Edit
               </EditButton>
               <CancelButton onClick={handleDelete}>Delete</CancelButton>
             </ButtonContainer>
+            <ReviewContainer>
+              <Typography variant="h5">Leave a Review</Typography>
+              <Typography>Rating</Typography>
+              <Rating
+                name="simple-controlled"
+                value={review.rating}
+                onChange={(event, newValue) => {
+                  setReview((prev) => ({ ...prev, rating: newValue }));
+                }}
+              />
+              <Typography>Review</Typography>
+              <ReviewTextField
+                multiline
+                minRows={5}
+                maxRows={10}
+                variant="outlined"
+                onChange={(event) => {
+                  setReview((prev) => ({ ...prev, text: event.target.value }));
+                }}
+              />
+              <div>
+                <SubmitReviewButton onClick={handleReviewSubmit}>
+                  Submit
+                </SubmitReviewButton>
+              </div>
+            </ReviewContainer>
           </Grid>
         </Grid>
       )}

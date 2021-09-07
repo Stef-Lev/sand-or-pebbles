@@ -8,6 +8,7 @@ const PORT = 7002;
 const path = require("path");
 const mongoose = require("mongoose");
 const Beach = require("./models/beach");
+const Review = require("./models/review");
 const validate = require("./utils/validate");
 const formatResponse = require("./utils/formatResponse");
 
@@ -81,6 +82,19 @@ app.delete(
     res.json("DELETED BEACH");
   })
 );
+
+app.post(
+  "/beaches/:id/reviews",
+  catchAsync(async (req, res) => {
+    const beach = await Beach.findById(req.params.id);
+    const review = new Review(req.body);
+    beach.reviews.push(review);
+    await review.save();
+    await beach.save();
+    res.json(formatResponse({review, beach}));
+  })
+);
+
 // TODO: Check if this is needed
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page not found", 404));

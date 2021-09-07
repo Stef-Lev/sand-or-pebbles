@@ -21,6 +21,12 @@ const BeachSchema = new Schema({
   sandQuality: {
     type: Number,
   },
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Beach", BeachSchema);
